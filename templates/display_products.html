@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Display</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            width: 100%; /* Ensure it fits the width of the card */
+            height: 300px; /* Set a fixed height */
+            object-fit: cover; /* Crop the image while maintaining aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Posted Products</h1>
+
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by name, model, or manufacturer..." onkeyup="searchProducts()">
+
+        {% if products %}
+            <div class="row" id="productList">
+                {% for product in products %}
+                    <div class="col-md-4 mb-4 product-item">
+                        <div class="card">
+                            {% if product.product_image %}
+                                <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.vehicle_name }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="No Image">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.vehicle_name }}</h5>
+                                <p class="card-text">Model: {{ product.model_name }}</p>
+                                <p class="card-text">Manufacturer: {{ product.manufacturer_name }}</p>
+                                <p class="card-text">Predicted Price: ₹{{ product.predicted_price }}</p>
+
+                                <!-- Condition Display -->
+                                {% if product.product_condition == '0.9' %}
+                                    <p class="card-text">Condition: Good</p>
+                                {% elif product.product_condition == '0.7' %}
+                                    <p class="card-text">Condition: Average</p>
+                                {% elif product.product_condition == '0.5' %}
+                                    <p class="card-text">Condition: Bad</p>
+                                {% elif product.product_condition == '0.3' %}
+                                    <p class="card-text">Condition: Worst</p>
+                                {% else %}
+                                    <p class="card-text">Condition: Unknown</p>
+                                {% endif %}
+                                
+                                {% if product.product_video %}
+                                    <a href="{{ product.product_video.url }}" class="btn btn-primary" target="_blank">View Video</a>
+                                {% else %}
+                                    <button class="btn btn-secondary" disabled>No Video Available</button>
+                                {% endif %}
+
+                                <!-- Request Button -->
+                                {% if request.user.is_authenticated %}
+                                    <form action="{% url 'make_request' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success mt-2">Request Product</button>
+                                    </form>
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-warning mt-2">Login to Request</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No products to display.</p>
+        {% endif %}
+        <a href="{% url 'home' %}" class="btn btn-link mt-4">Go Back to Home</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript for Search Functionality -->
+    <script>
+        function searchProducts() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let products = document.getElementsByClassName('product-item');
+
+            for (let i = 0; i < products.length; i++) {
+                let name = products[i].getElementsByClassName('card-title')[0].innerText.toLowerCase();
+                let model = products[i].getElementsByClassName('card-text')[0].innerText.toLowerCase();
+                let manufacturer = products[i].getElementsByClassName('card-text')[1].innerText.toLowerCase();
+
+                if (name.includes(input) || model.includes(input) || manufacturer.includes(input)) {
+                    products[i].style.display = "";
+                } else {
+                    products[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

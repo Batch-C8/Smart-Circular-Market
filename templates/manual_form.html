@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Fill Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>Manual Fill Form</h3>
+                <p class="mb-0">Please provide the required details below.</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="vehicle_name" class="form-label">Vehicle Name</label>
+                        {{ form.vehicle_name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="model_name" class="form-label">Model Name</label>
+                        {{ form.model_name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="manufacturer_name" class="form-label">Manufacturer Name</label>
+                        {{ form.manufacturer_name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="manufacturing_date" class="form-label">Manufacturing Date</label>
+                        {{ form.manufacturing_date }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="product_condition" class="form-label">Product Condition</label>
+                        {{ form.product_condition }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="product_image" class="form-label">Product Image (Optional)</label>
+                        {{ form.product_image }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="product_video" class="form-label">Product Video (Optional)</label>
+                        {{ form.product_video }}
+                    </div>
+                    <div class="mb-3">
+         <label for="id_kilometers_driven" class="form-label">Kilometers Driven:</label>
+          <input type="number" name="kilometers_driven" min="0" required class="form-control" id="id_kilometers_driven">
+        </div>
+
+                    <button type="submit" class="btn btn-success w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+asgiref==3.8.1
+cryptography==44.0.0
+Django==5.1.4
+gunicorn==23.0.0
+pandas==2.2.3
+pdfminer.six==20231228
+pdfplumber==0.11.5
+pillow==11.1.0
+pytesseract==0.3.13
+python-dateutil==2.9.0.post0
+pytz==2024.2
+scikit-learn==1.6.0
+scipy==1.15.0
+six==1.17.0
+sqlparse==0.5.3
+tzdata==2024.2
+whitenoise==6.8.2
